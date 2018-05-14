@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--导航颜色-->
+
+
+    <color name="primary">#00a2fd</color>
+    <color name="primaryDark">#7fd0ff</color>
+    <color name="accent">#999999</color>
+    <color name="main">#999999</color>
+
+    <color name="colorPrimary">@color/primary</color>
+    <color name="colorPrimaryDark">@color/primaryDark</color>
+    <color name="colorAccent">@color/accent</color>
+    <color name="windowBackground">@color/md_divider</color>
+
+
+    <color name="swiperefresh_color1">#ff00ddff</color>
+    <color name="swiperefresh_color2">#ffffbb33</color>
+    <color name="swiperefresh_color3">#ffff4444</color>
+    <color name="swiperefresh_color4">#ffaa66cc</color>
+    <color name="multiple_image_select_primaryDark">@color/accent</color>
+
+    <color name="multiple_image_select_primary">@color/transparent_full</color>
+
+
+
+    <color name="white">#ffffff</color>
+    <color name="md_white">#ffffff</color>
+    <color name="md_bg_color">@color/md_white</color>
+
+    <color name="md_divider">#e2e2e2</color>
+    <color name="hint">@color/md_divider</color>
+    <color name="md_black">#2b2b2b</color>
+    <color name="md_black_3d">#3d3d3d</color>
+
+    <color name="md_txt">@color/main</color>
+
+    <color name="transparent_full">#00000000</color>
+
+
+    <color name="md_gray">#b3b3b3</color>
+    <color name="hint_gray">#dfdfdf</color>
+
+    <color name="black">#545454</color>
+
+    <color name="orange">#ff9530</color>
+    <color name="deep_gold">#ffb900</color>
+    <color name="red">#ff5e32</color>
+    <color name="gray">#f7f8f8</color>
+    <color name="gray_71">#717171</color>
+    <color name="eeeee">#eeeeee</color>
+    <color name="gold">#ffefc5</color>
+
+    <color name="bg_dialog">#80000000</color>
+</resources>

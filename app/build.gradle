@@ -1,0 +1,113 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+    defaultConfig {
+        applicationId "com.zlf.demo"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode rootProject.ext.versionCode
+        versionName rootProject.ext.versionName
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    dataBinding {
+        enabled = true
+    }
+    /**
+     * gradle3.0修改apk包名
+     */
+    android.applicationVariants.all {
+        variant ->
+            variant.outputs.all {
+                //这里修改apk文件名
+                outputFileName = "${variant.name}-v${variant.versionName}.apk"
+            }
+    }
+    signingConfigs {
+        release {
+            keyAlias ALIAS_NAME
+            keyPassword ALIAS_PASSWORD
+            storeFile file(KEY_PATH)
+            storePassword KEY_PASSWORD
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+        debug {
+            keyAlias ALIAS_NAME
+            keyPassword ALIAS_PASSWORD
+            storeFile file(KEY_PATH)
+            storePassword KEY_PASSWORD
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            signingConfig signingConfigs.release
+            proguardFile 'proguard-rules.pro'
+            zipAlignEnabled true
+        }
+        debug {
+            minifyEnabled false
+            signingConfig signingConfigs.debug
+            proguardFile 'proguard-rules.pro'
+        }
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+    flavorDimensions "zachary"
+
+    productFlavors {
+
+        dev {
+            dimension "zachary"
+            applicationId "com.zlf.demo"
+            versionCode 10
+            versionName "1.0"
+            manifestPlaceholders = [BAIDU_KEY: "RRKdx3Svk27UIIWFN7eMfAX3dk41KCPb"]
+            buildConfigField("String", "REQUEST_URL", "\"http://192.168.10.74:9079/huntsman-mobile-web/\"")
+
+        }
+        rel {
+            dimension "zachary"
+            applicationId "com.zlf.demo"
+            versionCode 10
+            versionName "1.0"
+            manifestPlaceholders = [BAIDU_KEY: "RRKdx3Svk27UIIWFN7eMfAX3dk41KCPb"]
+            buildConfigField("String", "REQUEST_URL", "\"http://app.huntsman.ssit-xm.com.cn/huntsman-mobile-web/\"")
+
+        }
+        bata {
+            dimension "zachary"
+            applicationId "com.zlf.demo"
+            versionCode 10
+            versionName "1.0"
+            manifestPlaceholders = [BAIDU_KEY: "RRKdx3Svk27UIIWFN7eMfAX3dk41KCPb"]
+            buildConfigField("String", "REQUEST_URL", "\"http://119.29.117.160:61022/huntsman-mobile-web/\"")
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    implementation project(':lib:loadsir')
+
+    implementation rootProject.ext.libSupportV7
+    implementation rootProject.ext.libSupportDesign
+    implementation rootProject.ext.libRxBinding
+    implementation rootProject.ext.libGlide
+    implementation rootProject.ext.libRxPermissions
+    implementation rootProject.ext.libRxjava2
+    implementation rootProject.ext.libRetrofit2
+    implementation rootProject.ext.libRxandroid
+    //implementation rootProject.ext.libOkhttpInterceptor
+    implementation rootProject.ext.libGsonConvert
+    implementation rootProject.ext.libRxRetrofitAdapter
+    implementation rootProject.ext.libLogger
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+}
