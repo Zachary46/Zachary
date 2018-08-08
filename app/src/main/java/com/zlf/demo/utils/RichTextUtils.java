@@ -10,6 +10,8 @@ import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
 
+import com.zlf.demo.R;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -24,8 +26,8 @@ public class RichTextUtils {
     public static SpannableString getRichText(final Context context, String text){
         SpannableString string = new SpannableString(text);
         if(!TextUtils.isEmpty(text)){
-            final int link_color = ContextCompat.getColor(context, com.zachary.base.R.color.red);
-            final int mention_color = ContextCompat.getColor(context, com.zachary.base.R.color.red);
+            final int link_color = ContextCompat.getColor(context, R.color.red);
+            final int mention_color = ContextCompat.getColor(context, R.color.red);
             Matcher matcher_two= MENTION_PATTERN.matcher(text);
             while (matcher_two.find()){
                 final String name  = matcher_two.group();

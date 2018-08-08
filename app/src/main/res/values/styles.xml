@@ -7,7 +7,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="actionBarSize">@dimen/actionBarSize</item>
+        <item name="actionBarSize">@dimen/dp_48</item>
         <item name="navigationIcon">@drawable/ic_navigation</item>
         <item name="titleTextAppearance">@style/tv_black_sl_toolbar</item>
         <item name="actionMenuTextColor">@color/md_gray</item>
@@ -21,7 +21,7 @@
 
     <style name="ActionBarMenu" parent="@style/ThemeOverlay.AppCompat.ActionBar">
         <item name="actionMenuTextColor">@color/md_gray</item>
-        <item name="android:textSize">@dimen/font_12</item>
+        <item name="android:textSize">@dimen/sp_12</item>
         <item name="colorControlNormal">@color/md_white</item>
         <item name="actionModeBackground">@color/md_white</item>
         <item name="actionBarItemBackground">@drawable/actionbar_item_background</item>
@@ -42,7 +42,7 @@
         <item name="android:textColor">@color/md_gray</item>
         <item name="android:singleLine">true</item>
         <item name="contentInsetLeft">0dp</item>
-        <item name="android:textSize">@dimen/font_15</item>
+        <item name="android:textSize">@dimen/sp_15</item>
     </style>
 
     <style name="dialog_center" parent="@android:style/Theme.Dialog">

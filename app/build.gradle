@@ -1,14 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
     defaultConfig {
         applicationId "com.zlf.demo"
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode rootProject.ext.versionCode
-        versionName rootProject.ext.versionName
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     dataBinding {
@@ -17,11 +18,19 @@ android {
     /**
      * gradle3.0修改apk包名
      */
-    android.applicationVariants.all {
+    applicationVariants.all {
         variant ->
             variant.outputs.all {
                 //这里修改apk文件名
                 outputFileName = "${variant.name}-v${variant.versionName}.apk"
+                //判断是release还是debug版本
+                def buildType = variant.buildType.name
+                //获取当前时间的"YYYY-MM-dd"格式。
+                def createTime = new Date().format("YYYY-MM-dd", TimeZone.getTimeZone("GMT+08:00"))
+                //如果是正式包,将其输入到指定文件夹
+                if (buildType == "release") {
+                    variant.getPackageApplication().outputDirectory = new File('/Users/zachary/zlf'+ "/${variant.productFlavors[0].applicationId}/${createTime}")
+                }
             }
     }
     signingConfigs {
@@ -42,7 +51,7 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             signingConfig signingConfigs.release
             proguardFile 'proguard-rules.pro'
             zipAlignEnabled true
@@ -52,6 +61,16 @@ android {
             signingConfig signingConfigs.debug
             proguardFile 'proguard-rules.pro'
         }
+    }
+
+    compileOptions{
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+        incremental = false
+    }
+
+    dexOptions {
+        javaMaxHeapSize "4g"
     }
 
     lintOptions {
@@ -97,17 +116,17 @@ dependencies {
 
     implementation project(':lib:loadsir')
 
-    implementation rootProject.ext.libSupportV7
-    implementation rootProject.ext.libSupportDesign
-    implementation rootProject.ext.libRxBinding
-    implementation rootProject.ext.libGlide
-    implementation rootProject.ext.libRxPermissions
-    implementation rootProject.ext.libRxjava2
-    implementation rootProject.ext.libRetrofit2
-    implementation rootProject.ext.libRxandroid
+    implementation rootProject.ext.dependencies.libSupportV7
+    implementation rootProject.ext.dependencies.libSupportDesign
+    implementation rootProject.ext.dependencies.libRxBinding
+    implementation rootProject.ext.dependencies.libGlide
+    implementation rootProject.ext.dependencies.libRxPermissions
+    implementation rootProject.ext.dependencies.libRxjava2
+    implementation rootProject.ext.dependencies.libRetrofit2
+    implementation rootProject.ext.dependencies.libRxandroid
     //implementation rootProject.ext.libOkhttpInterceptor
-    implementation rootProject.ext.libGsonConvert
-    implementation rootProject.ext.libRxRetrofitAdapter
-    implementation rootProject.ext.libLogger
-    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+    implementation rootProject.ext.dependencies.libGsonConvert
+    implementation rootProject.ext.dependencies.libRxRetrofitAdapter
+    implementation rootProject.ext.dependencies.libLogger
+    implementation rootProject.ext.dependencies.libConstraint
 }
