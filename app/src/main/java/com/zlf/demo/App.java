@@ -1,28 +1,27 @@
 package com.zlf.demo;
 
 import android.app.Application;
-import com.kingja.loadsir.core.LoadSir;
-import com.zlf.demo.callback.CustomCallback;
-import com.zlf.demo.callback.EmptyCallback;
-import com.zlf.demo.callback.ErrorCallback;
-import com.zlf.demo.callback.LoadingCallback;
-import com.zlf.demo.callback.TimeoutCallback;
+
+
+import com.zlf.demo.init.InitLoadSir;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import io.reactivex.annotations.NonNull;
 
 public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        initLoadSir();
+        List<IAppInit> initList = new ArrayList<>();
+        initList.add(new InitLoadSir());
+        for (IAppInit iAppInit : initList){
+            iAppInit.init(this);
+        }
     }
 
-    private void initLoadSir() {
-        LoadSir.beginBuilder()
-                .addCallback(new ErrorCallback())
-                .addCallback(new EmptyCallback())
-                .addCallback(new LoadingCallback())
-                .addCallback(new TimeoutCallback())
-                .addCallback(new CustomCallback())
-                .setDefaultCallback(LoadingCallback.class)
-                .commit();
+    public interface IAppInit{
+        void init(@NonNull Application application);
     }
 }
