@@ -124,7 +124,7 @@ dependencies {
     implementation rootProject.ext.dependencies.libRxjava2
     implementation rootProject.ext.dependencies.libRetrofit2
     implementation rootProject.ext.dependencies.libRxandroid
-    //implementation rootProject.ext.libOkhttpInterceptor
+  //implementation rootProject.ext.libOkhttpInterceptor
     implementation rootProject.ext.dependencies.libGsonConvert
     implementation rootProject.ext.dependencies.libRxRetrofitAdapter
     implementation rootProject.ext.dependencies.libLogger
