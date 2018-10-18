@@ -19,12 +19,10 @@ public class TitleBar {
     private Toolbar mRoot;
     private LinearLayout llCustom;
     private ActionBar mActionBar;
-    private NavigationView rootView;
 
-    public TitleBar(final AppCompatActivity activity, NavigationView v) {
+    public TitleBar(final AppCompatActivity activity, Toolbar v) {
         mActivity = activity;
-        mRoot = (Toolbar) v.findViewById(R.id.toolBar);
-        rootView = v;
+        mRoot = v;
         mActivity.setSupportActionBar(mRoot);
         mActionBar = mActivity.getSupportActionBar();
         llCustom = (LinearLayout) mRoot.findViewById(R.id.llCustom);
@@ -36,22 +34,23 @@ public class TitleBar {
             }
         });
         mActionBar.setDisplayShowTitleEnabled(false);
+
     }
 
     public TitleBar hideTitleBar() {
-        rootView.setVisibility(View.VISIBLE);
+        mRoot.setVisibility(View.VISIBLE);
         mActionBar.hide();
         return this;
     }
 
     public TitleBar hideRoot() {
-        rootView.setVisibility(View.GONE);
+        mRoot.setVisibility(View.GONE);
         mActionBar.hide();
         return this;
     }
 
     public TitleBar showRoot() {
-        rootView.setVisibility(View.VISIBLE);
+        mRoot.setVisibility(View.VISIBLE);
         mActionBar.show();
         return this;
     }
@@ -92,7 +91,7 @@ public class TitleBar {
 
     public TitleBar showTitleBar() {
         mActionBar.show();
-        rootView.setVisibility(View.VISIBLE);
+        mRoot.setVisibility(View.VISIBLE);
         return this;
     }
 

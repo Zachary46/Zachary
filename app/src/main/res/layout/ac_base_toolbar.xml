@@ -5,40 +5,30 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-    <com.zlf.demo.ui.views.navigationview.NavigationView
-        android:id="@+id/na"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        app:colorEnd="@color/colorPrimary"
-        app:colorPrimaryDark="?attr/colorPrimary"
-        app:colorStart="@color/colorPrimary"
-        app:drawPrimaryDark="true"
-        app:enablePadding="true">
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolBar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_below="@+id/na"
-            android:background="@color/colorPrimary"
-            app:theme="@style/ActionBarMenu"
-            app:titleTextAppearance="?attr/titleTextAppearance">
-            <LinearLayout
-                android:id="@+id/llCustom"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:orientation="vertical">
-            </LinearLayout>
-        </android.support.v7.widget.Toolbar>
-    </com.zlf.demo.ui.views.navigationview.NavigationView>
+        android:background="@drawable/shape_main"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:theme="@style/ActionBarMenu"
+        app:titleTextAppearance="?attr/titleTextAppearance">
+        <LinearLayout
+            android:id="@+id/llCustom"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+        </LinearLayout>
+    </android.support.v7.widget.Toolbar>
+
 
     <View
         android:id="@+id/line"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_divider"
-        android:layout_below="@+id/na"
+        android:layout_below="@+id/toolBar"
         android:background="@color/md_divider"
         android:visibility="visible"/>
 

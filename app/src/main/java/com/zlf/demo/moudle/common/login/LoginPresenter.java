@@ -17,13 +17,13 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                 .compose(new BaseObservableTransformer<UserModel>(getView()))
                 .subscribe(new BaseObserver<UserModel>(getView()) {
 
-            @Override
-            public void onSuccess(RxHttpResponse<UserModel> response) {
-                if (response.success) {
-                    getView().onLoginResult(response.info);
-                }
-            }
-        });
+                    @Override
+                    public void onSuccess(RxHttpResponse<UserModel> response) {
+                        if (response.success) {
+                            getView().onLoginResult(response.info);
+                        }
+                    }
+                });
 
     }
 

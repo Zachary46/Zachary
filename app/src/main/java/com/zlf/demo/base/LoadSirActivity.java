@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.Toolbar;
 
 import com.kingja.loadsir.callback.Callback;
 import com.kingja.loadsir.core.LoadService;
@@ -25,7 +26,7 @@ import io.reactivex.internal.disposables.ListCompositeDisposable;
 
 /**
  * @Author: Zachary
- * @Date: 2018/5/11/011
+ * @Date: 2018/5/11
  * @Description: 基类(不能含有BaseFragment的子类)
  */
 public abstract class LoadSirActivity<V extends BaseView, P extends BasePresenter<V>> extends AppCompatActivity implements BaseView{
@@ -34,7 +35,7 @@ public abstract class LoadSirActivity<V extends BaseView, P extends BasePresente
     protected View rootView;
     private TitleBar mTitleBar;
     private RelativeLayout rlContent;
-    private NavigationView mNavigationView;
+    private android.support.v7.widget.Toolbar toolbar;
     protected LoadService mLoadService;
     protected DialogLayout mDialogLayout;
     private ListCompositeDisposable mListCompositeDisposable = new ListCompositeDisposable();
@@ -45,7 +46,7 @@ public abstract class LoadSirActivity<V extends BaseView, P extends BasePresente
 
     public TitleBar getToolBar() {
         if (null == mTitleBar) {
-            mTitleBar = new TitleBar(this, mNavigationView);
+            mTitleBar = new TitleBar(this, toolbar);
         }
         return mTitleBar;
     }
@@ -58,7 +59,7 @@ public abstract class LoadSirActivity<V extends BaseView, P extends BasePresente
         initMVP();
 
         rlContent = (RelativeLayout) findViewById(R.id.rlContent);
-        mNavigationView = (NavigationView) findViewById(R.id.na);
+        toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolBar);
         rootView = getLayoutInflater().inflate(getLayoutId(), rlContent, false);
         rlContent.addView(rootView);
 

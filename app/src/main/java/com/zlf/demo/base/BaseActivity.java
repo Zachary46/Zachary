@@ -1,13 +1,17 @@
 package com.zlf.demo.base;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.Toolbar;
+
 import com.zlf.demo.R;
 import com.zlf.demo.ui.views.TitleBar;
-import com.zlf.demo.ui.views.navigationview.NavigationView;
+
+import qiu.niorgai.StatusBarCompat;
 
 /**
  * @Author: Zachary
@@ -17,12 +21,12 @@ import com.zlf.demo.ui.views.navigationview.NavigationView;
 public abstract class BaseActivity extends AppCompatActivity{
     protected View rootView;
     private TitleBar mTitleBar;
+    private android.support.v7.widget.Toolbar toolbar;
     private RelativeLayout rlContent;
-    private NavigationView mNavigationView;
 
     public TitleBar getToolBar() {
         if (null == mTitleBar) {
-            mTitleBar = new TitleBar(this, mNavigationView);
+            mTitleBar = new TitleBar(this, toolbar);
         }
         return mTitleBar;
     }
@@ -31,12 +35,30 @@ public abstract class BaseActivity extends AppCompatActivity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ac_base_toolbar);
+        toolbar = findViewById(R.id.toolBar);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+            StatusBarCompat.translucentStatusBar(this);
+            toolbar.setPadding(toolbar.getPaddingLeft(), getStatusBarHeight(), toolbar.getPaddingRight(), toolbar.getPaddingBottom());
+        }
 
         rlContent = (RelativeLayout) findViewById(R.id.rlContent);
-        mNavigationView = (NavigationView) findViewById(R.id.na);
         rootView = getLayoutInflater().inflate(getLayoutId(), rlContent, false);
         rlContent.addView(rootView);
     }
 
     public abstract int getLayoutId();
+
+    private int getStatusBarHeight() {
+        try {
+            Class<?> clazz = Class.forName("com.android.internal.R$dimen");
+            Object object = clazz.newInstance();
+            int height = Integer.parseInt(clazz.getField("status_bar_height").get(object).toString());
+            return getResources().getDimensionPixelSize(height);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 }
+
+
