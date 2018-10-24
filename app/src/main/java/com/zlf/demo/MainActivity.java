@@ -3,6 +3,7 @@ package com.zlf.demo;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Menu;
@@ -13,14 +14,17 @@ import android.widget.ImageView;
 
 import com.chaychan.library.BottomBarItem;
 import com.chaychan.library.BottomBarLayout;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.https.callback.DialogCallback;
 import com.zlf.demo.base.BaseActivity;
+import com.zlf.demo.moudle.common.test.TestFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends BaseActivity {
 
-    private List<TabFragment> mFragmentList = new ArrayList<>();
+    private List<Fragment> mFragmentList = new ArrayList<>();
     private FrameLayout mFlContent;
     private BottomBarLayout mBottomBarLayout;
     private RotateAnimation mRotateAnimation;
@@ -42,17 +46,19 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initView() {
+        getToolBar().setTitle("Zachary");
         mFlContent = (FrameLayout) findViewById(R.id.fl_content);
         mBottomBarLayout = (BottomBarLayout) findViewById(R.id.bbl);
     }
 
     private void initData() {
 
-        TabFragment homeFragment = new TabFragment();
+        /*TabFragment homeFragment = new TabFragment();
         Bundle bundle1 = new Bundle();
         bundle1.putString(TabFragment.CONTENT, "首页");
-        homeFragment.setArguments(bundle1);
-        mFragmentList.add(homeFragment);
+        homeFragment.setArguments(bundle1);*/
+        TestFragment testFragment=new TestFragment();
+        mFragmentList.add(testFragment);
 
         TabFragment videoFragment = new TabFragment();
         Bundle bundle2 = new Bundle();
@@ -92,9 +98,7 @@ public class MainActivity extends BaseActivity {
 
                         //播放旋转动画
                         if (mRotateAnimation == null) {
-                            mRotateAnimation = new RotateAnimation(0, 360,
-                                    Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
-                                    0.5f);
+                            mRotateAnimation = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
                             mRotateAnimation.setDuration(800);
                             mRotateAnimation.setRepeatCount(-1);
                         }

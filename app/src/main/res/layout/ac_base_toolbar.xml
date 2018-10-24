@@ -30,7 +30,7 @@
         android:layout_height="@dimen/height_divider"
         android:layout_below="@+id/toolBar"
         android:background="@color/md_divider"
-        android:visibility="visible"/>
+        android:visibility="gone"/>
 
     <RelativeLayout
         android:id="@+id/rlContent"

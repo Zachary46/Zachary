@@ -4,6 +4,7 @@ import android.app.Application;
 
 
 import com.zlf.demo.init.InitLoadSir;
+import com.zlf.demo.init.InitSmartRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,7 @@ public class App extends Application {
         super.onCreate();
         List<IAppInit> initList = new ArrayList<>();
         initList.add(new InitLoadSir());
+        initList.add(new InitSmartRefreshLayout());
         for (IAppInit iAppInit : initList){
             iAppInit.init(this);
         }

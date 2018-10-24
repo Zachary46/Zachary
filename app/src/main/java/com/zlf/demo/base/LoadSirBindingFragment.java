@@ -9,8 +9,8 @@ import android.view.View;
  * @Date: 2018/5/11/011
  * @Description:
  */
-public abstract class BaseBindingFragment<V extends BaseView,P extends BasePresenter<V>,Binding extends ViewDataBinding>
-        extends BaseFragment<V,P>{
+public abstract class LoadSirBindingFragment<V extends BaseView,P extends BasePresenter<V>,Binding extends ViewDataBinding>
+        extends LoadSirFragment<V,P> {
     protected Binding mBinding;
     @Override
     protected void initView(View view) {

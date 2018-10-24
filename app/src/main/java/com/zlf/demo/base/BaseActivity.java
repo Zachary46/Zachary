@@ -4,13 +4,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.RelativeLayout;
-import android.widget.Toolbar;
-
 import com.zlf.demo.R;
 import com.zlf.demo.ui.views.TitleBar;
 
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import qiu.niorgai.StatusBarCompat;
 
 /**
@@ -21,9 +22,9 @@ import qiu.niorgai.StatusBarCompat;
 public abstract class BaseActivity extends AppCompatActivity{
     protected View rootView;
     private TitleBar mTitleBar;
-    private android.support.v7.widget.Toolbar toolbar;
+    private Toolbar toolbar;
     private RelativeLayout rlContent;
-
+    Unbinder unbinder;
     public TitleBar getToolBar() {
         if (null == mTitleBar) {
             mTitleBar = new TitleBar(this, toolbar);
@@ -36,6 +37,7 @@ public abstract class BaseActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ac_base_toolbar);
         toolbar = findViewById(R.id.toolBar);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
             StatusBarCompat.translucentStatusBar(this);
             toolbar.setPadding(toolbar.getPaddingLeft(), getStatusBarHeight(), toolbar.getPaddingRight(), toolbar.getPaddingBottom());
@@ -44,9 +46,19 @@ public abstract class BaseActivity extends AppCompatActivity{
         rlContent = (RelativeLayout) findViewById(R.id.rlContent);
         rootView = getLayoutInflater().inflate(getLayoutId(), rlContent, false);
         rlContent.addView(rootView);
+
+        unbinder = ButterKnife.bind(this);
+
+        doExtend(rlContent);
+
     }
 
     public abstract int getLayoutId();
+
+    //扩展方法
+    protected void doExtend(View view){
+
+    }
 
     private int getStatusBarHeight() {
         try {
@@ -58,6 +70,12 @@ public abstract class BaseActivity extends AppCompatActivity{
             e.printStackTrace();
         }
         return 0;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
     }
 }
 

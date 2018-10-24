@@ -3,7 +3,7 @@ package com.zlf.demo.moudle.common.login;
 import android.view.View;
 import android.widget.Button;
 import com.zlf.demo.R;
-import com.zlf.demo.base.BaseFragment;
+import com.zlf.demo.base.LoadSirFragment;
 import com.zlf.demo.model.UserModel;
 
 /**
@@ -11,7 +11,7 @@ import com.zlf.demo.model.UserModel;
  * @Date: 2018/5/11/011
  * @Description:
  */
-public class LoginFragment extends BaseFragment<LoginView, LoginPresenter> implements LoginView {
+public class LoginFragment extends LoadSirFragment<LoginView, LoginPresenter> implements LoginView {
 
 
     private Button button;

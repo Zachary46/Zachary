@@ -10,7 +10,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.zlf.demo.R;
-import com.zlf.demo.ui.views.navigationview.NavigationView;
 
 
 public class TitleBar {

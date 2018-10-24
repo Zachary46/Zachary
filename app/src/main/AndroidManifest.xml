@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".moudle.common.login.LoginActivity" />
-        <activity android:name=".moudle.common.bind.BindingActivity"></activity>
+        <activity android:name=".moudle.common.test.TestActivity"></activity>
     </application>
 
 </manifest>

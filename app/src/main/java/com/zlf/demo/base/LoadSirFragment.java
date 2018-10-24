@@ -1,14 +1,15 @@
 package com.zlf.demo.base;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.RelativeLayout;
-import android.widget.Toolbar;
+import android.view.ViewGroup;
 
 import com.kingja.loadsir.callback.Callback;
 import com.kingja.loadsir.core.LoadService;
@@ -17,7 +18,6 @@ import com.zlf.demo.R;
 import com.zlf.demo.callback.EmptyCallback;
 import com.zlf.demo.callback.ErrorCallback;
 import com.zlf.demo.callback.LoadingCallback;
-import com.zlf.demo.ui.views.TitleBar;
 import com.zlf.demo.ui.views.dialog.DialogLayout;
 
 import butterknife.ButterKnife;
@@ -27,18 +27,16 @@ import io.reactivex.internal.disposables.ListCompositeDisposable;
 
 /**
  * @Author: Zachary
- * @Date: 2018/5/11
- * @Description: 基类(不能含有BaseFragment的子类)
+ * @Date: 2018/5/11/011
+ * @Description:
  */
-public abstract class LoadSirActivity<V extends BaseView, P extends BasePresenter<V>> extends AppCompatActivity implements BaseView{
+public abstract class LoadSirFragment<V extends BaseView, P extends BasePresenter<V>> extends Fragment implements BaseView{
     private P presneter;
     private V view;
-    protected View rootView;
-    private TitleBar mTitleBar;
-    private RelativeLayout rlContent;
-    private android.support.v7.widget.Toolbar toolbar;
+    protected View mRoot;
+    protected LayoutInflater mInflater;
     protected LoadService mLoadService;
-    protected DialogLayout mDialogLayout;
+    private DialogLayout mDialogLayout;
     private Unbinder unbinder;
     private ListCompositeDisposable mListCompositeDisposable = new ListCompositeDisposable();
 
@@ -46,43 +44,38 @@ public abstract class LoadSirActivity<V extends BaseView, P extends BasePresente
         return presneter;
     }
 
-    public TitleBar getToolBar() {
-        if (null == mTitleBar) {
-            mTitleBar = new TitleBar(this, toolbar);
-        }
-        return mTitleBar;
-    }
 
+    @Nullable
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.ac_base_toolbar);
-
-        initMVP();
-
-        rlContent = (RelativeLayout) findViewById(R.id.rlContent);
-        toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolBar);
-        rootView = getLayoutInflater().inflate(getLayoutId(), rlContent, false);
-        rlContent.addView(rootView);
-
-        unbinder = ButterKnife.bind(rlContent);
-
-        initView();
-
-        /**LoadSir注册必须放在initialize()后面，不然initialize()会报空指针，View会被LoadSir拦截的样子*/
-        mLoadService = LoadSir.getDefault().register(rootView, new Callback.OnReloadListener() {
-            @Override
-            public void onReload(View v) {
-                reloadData(v);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        if (mRoot != null) {
+            ViewGroup parent = (ViewGroup) container.getParent();
+            if (parent != null) {
+                parent.removeView(mRoot);
             }
-        });
+        } else {
+            mInflater = inflater;
+            mRoot = inflater.inflate(getLayoutId(), container, false);
+            unbinder = ButterKnife.bind(this, mRoot);
+            initMVP();
+            initView(mRoot);
 
-        /**LoadSir注册必须放在loadData()前面，不然mLoadService会报空指针*/
-        loadData();
+            /**LoadSir注册必须放在initialize()后面，不然initialize()会报空指针，View会被LoadSir拦截的样子*/
+            mLoadService = LoadSir.getDefault().register(mRoot, new Callback.OnReloadListener() {
+                @Override
+                public void onReload(View v) {
+                    reloadData(v);
+                }
+            });
+
+            /**LoadSir注册必须放在loadData()前面，不然mLoadService会报空指针*/
+            loadData();
+        }
+        return mLoadService.getLoadLayout();
     }
-
 
     private void initMVP() {
+        Log.i("zhou","============1============");
         if (this.presneter == null){
             this.presneter = createPresneter();
         }
@@ -99,27 +92,30 @@ public abstract class LoadSirActivity<V extends BaseView, P extends BasePresente
     }
 
     public abstract P createPresneter();
+
     public abstract V createView();
-    public abstract void initView();
-    public abstract void loadData();
-    public abstract void reloadData(View v);
 
     @Override
-    public Activity getActivity() {
-        return this;
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
+        super.onDestroyView();
         this.presneter.detachView();
         this.unbinder.unbind();
+    }
+
+    protected void loadData(){
+
+    }
+
+    public abstract void reloadData(View v);
+
+    protected void initView(View view){
+
     }
 
     @Override
     public void showProgress() {
         if (mDialogLayout == null) {
-            mDialogLayout = new DialogLayout(this);
+            mDialogLayout = new DialogLayout(getActivity());
         }
         mDialogLayout.show();
     }
@@ -133,8 +129,9 @@ public abstract class LoadSirActivity<V extends BaseView, P extends BasePresente
 
     @Override
     public void showLoading(){
+        Log.i("zhou","============showLoading============");
         if (mDialogLayout == null) {
-            mDialogLayout = new DialogLayout(this);
+            mDialogLayout = new DialogLayout(getActivity());
         }
         mDialogLayout.show();
         if (null != mLoadService) {
@@ -163,23 +160,39 @@ public abstract class LoadSirActivity<V extends BaseView, P extends BasePresente
 
     @Override
     public void addDisposable(Disposable disposable) {
-        if (null != disposable && !disposable.isDisposed()) {
-            mListCompositeDisposable.add(disposable);
-        }
+        mListCompositeDisposable.add(disposable);
     }
 
     @Override
     public void removeDisposable(Disposable disposable) {
-        if (null != disposable) {
-            mListCompositeDisposable.remove(disposable);
-        }
+        mListCompositeDisposable.remove(disposable);
     }
 
     @Override
     public void clear() {
-        hideLoading();
         mListCompositeDisposable.clear();
     }
 
+    @Override
+    public void startActivity(Intent intent) {
+        super.startActivity(intent);
+        getActivity().overridePendingTransition(R.anim.tl_in_left_to_right, R.anim.tl_out_right_to_left);
 
+    }
+
+    @Override
+    public void startActivityForResult(Intent intent, int requestCode) {
+        super.startActivityForResult(intent, requestCode);
+        getActivity().overridePendingTransition(R.anim.tl_in_left_to_right, R.anim.tl_out_right_to_left);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        clear();
+        mRoot =null;
+    }
+    protected final int getColors(int color){
+        return ContextCompat.getColor(getContext(),color);
+    }
 }
