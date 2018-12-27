@@ -14,11 +14,16 @@ import android.widget.ImageView;
 
 import com.chaychan.library.BottomBarItem;
 import com.chaychan.library.BottomBarLayout;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
 import com.zlf.demo.base.BaseActivity;
 import com.zlf.demo.moudle.common.test.TestFragment;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Response;
 
 public class MainActivity extends BaseActivity {
 
@@ -116,7 +121,21 @@ public class MainActivity extends BaseActivity {
                         }, 3000);
                         return;
                     }
-                }
+                }/*else {
+                    String json = "{\n" +
+                            "  \"loginName\" : \"18567917280\",\n" +
+                            "  \"password\" : \"886721791585450fc4c9e366aa595ca01c53f62a4c2b7c922611dbb3939c2d1be789f0cf0ba8d25670825889f64ab3535ec31e4f761328a4ba2f08e71b1e00ca23d5645f0bbd2dc2530ae45bf878b7cae49c80b6dac364669adefff8a195d8221038b88a1059574f2ee93612d1e762d2cd06705e797fb82c72273c51adf2109d\"\n" +
+                            "  }";
+                    OkGo.post("https://qcode.lakala.com/qcode/api/qr/user/login")
+                            .upJson(json)
+                            .execute(new StringCallback() {
+                                @Override
+                                public void onSuccess(String s, Call call, Response response) {
+                                    Log.i("Zachary","==========="+ s);
+                                }
+                            });
+
+                }*/
 
                 //如果点击了其他条目
                 BottomBarItem bottomItem = mBottomBarLayout.getBottomItem(0);
