@@ -14,8 +14,6 @@ import android.widget.ImageView;
 
 import com.chaychan.library.BottomBarItem;
 import com.chaychan.library.BottomBarLayout;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.https.callback.DialogCallback;
 import com.zlf.demo.base.BaseActivity;
 import com.zlf.demo.moudle.common.test.TestFragment;
 
